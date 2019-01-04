@@ -140,3 +140,15 @@ services:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/:/etc/hyperledger/crypto/peer
     depends_on:
       - orderer.example.com
+      
+  redis.example.com:
+    container_name: redis.example.com
+    image: redis
+    ports:
+      - 6379:6379
+     
+  mq.example.com:
+    container_name: mq.example.com
+    image: rabbitmq
+    ports:
+      - 5672:5672
