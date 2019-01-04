@@ -1,6 +1,6 @@
 'use strict';
 var log4js = require('log4js');
-var logger = log4js.getLogger('SampleWebApp');
+var logger = log4js.getLogger('TransactionApp');
 var express = require('express');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
