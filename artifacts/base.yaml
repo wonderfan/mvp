@@ -14,6 +14,7 @@ services:
       # https://docs.docker.com/compose/networking/
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_default
       - CORE_LOGGING_LEVEL=DEBUG
+      - GODEBUG=netdns=go
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       # The following setting skips the gossip handshake since we are
