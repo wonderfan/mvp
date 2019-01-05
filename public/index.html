@@ -48,7 +48,7 @@
                   <p class="card-text">Send 50 trancations</p>
                 </div>
                 <div class="card-footer">
-                  <button class="btn btn-primary">Send</button>
+                  <button class="btn btn-primary" id="bulk">Send</button>
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@
                   <p class="card-text">Send 100 transactions</p>
                 </div>
                 <div class="card-footer">
-                  <button class="btn btn-primary">Send</button>
+                  <button class="btn btn-primary" id="batch">Send</button>
                 </div>
               </div>
             </div>
@@ -93,6 +93,13 @@
          <div class="alert alert-success" role="alert">
           <h4 class="alert-heading">Transaction Sent Successfully</h4>
           <p>The request is <span class="badge badge-light">{{uid}}</span></p>
+         </div>           
+        </script>
+        <script type="text/template" id="info">
+         <div class="alert alert-success" role="alert">
+          <h4 class="alert-heading">Transaction Result</h4>
+          <p>The request is <span class="badge badge-light">{{uid}}</span></p>
+          <p>The result is  </p>
          </div>           
         </script>
         <script src="/jquery.min.js"></script>
