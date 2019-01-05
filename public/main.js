@@ -7,6 +7,11 @@ function getUrl(path){
 jQuery(document).ready(function(){
     GetToken();
     RegisterHandler();
+    var socket = io();
+    socket.on("message",(data) => {
+        var template = jQuery("#alert").html().replace("{{uid}}",data);
+        jQuery("#result").append(template);        
+    })
 });
 
 function GetToken(){
@@ -39,8 +44,14 @@ function RegisterHandler(){
             contentType: "application/json",
             dataType: 'json',
             success: function (data) {
-                console.info(data);
+                var template = jQuery("#alert").html().replace("{{uid}}",data.id);
+                jQuery("#request").append(template);
+                setTimeout(function(){
+                    jQuery("#request").empty();
+                },1000)
             }
         });        
     });
 }
+
+

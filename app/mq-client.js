@@ -4,11 +4,12 @@ var invoke = require('./invoke-transaction.js');
 const queue = 'fabric';
 var connection = null;
 var channel = null;
-process.once('SIGINT', function(){ exports.close();});
+//process.once('SIGINT', function(){ exports.close();});
 module.exports.sendTx = async function(tx){
     //channel = await getChannel();
     let uid = uuid();
     tx.uid = uid;
+    global.socket.send(uid);
     //channel.sendToQueue(queue, Buffer.from(JSON.stringify(tx)));
     return uid;
 };

@@ -74,10 +74,16 @@ app.use(function(req, res, next) {
 	});
 });
 
-var server = http.createServer(app).listen(port, function() {});
+var server = http.createServer(app);
+var io = require('socket.io')(server);
+io.on('connection', socket => {
+	global.socket = socket;
+});
+server.timeout = 240000;
+server.listen(port, function() {});
 logger.info('****************** SERVER STARTED ************************');
 logger.info('***************  http://%s:%s  ******************',host,port);
-server.timeout = 240000;
+
 
 function getErrorMessage(field) {
 	var response = {
