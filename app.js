@@ -2,8 +2,6 @@
 var log4js = require('log4js');
 var logger = log4js.getLogger('TransactionApp');
 var express = require('express');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
 var util = require('util');
@@ -16,7 +14,6 @@ var cors = require('cors');
 
 require('./config.js');
 var hfc = require('fabric-client');
-
 var helper = require('./app/helper.js');
 var createChannel = require('./app/create-channel.js');
 var join = require('./app/join-channel.js');
@@ -27,26 +24,21 @@ var invoke = require('./app/invoke-transaction.js');
 var query = require('./app/query.js');
 var host = process.env.HOST || hfc.getConfigSetting('host');
 var port = process.env.PORT || hfc.getConfigSetting('port');
-///////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// SET CONFIGURATONS ////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
+
 app.options('*', cors());
 app.use(cors());
-//support parsing of application/json type post data
 app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// set secret variable
-app.set('secret', 'thisismysecret');
+app.set('secret', 'mysecret');
 app.use(expressJWT({
-	secret: 'thisismysecret'
+	secret: 'mysecret'
 }).unless({
-	path: ['/users']
+	path: ['/users','/token','/index.html']
 }));
 app.use(bearerToken());
 app.use(function(req, res, next) {
@@ -54,7 +46,12 @@ app.use(function(req, res, next) {
 	if (req.originalUrl.indexOf('/users') >= 0) {
 		return next();
 	}
-
+	if (req.originalUrl.indexOf('/token') >= 0) {
+		return next();
+	}
+	if (req.originalUrl.indexOf('/index.html') >= 0) {
+		return next();
+	}	
 	var token = req.token;
 	jwt.verify(token, app.get('secret'), function(err, decoded) {
 		if (err) {
@@ -76,9 +73,6 @@ app.use(function(req, res, next) {
 	});
 });
 
-///////////////////////////////////////////////////////////////////////////////
-//////////////////////////////// START SERVER /////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 var server = http.createServer(app).listen(port, function() {});
 logger.info('****************** SERVER STARTED ************************');
 logger.info('***************  http://%s:%s  ******************',host,port);
@@ -92,9 +86,25 @@ function getErrorMessage(field) {
 	return response;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////// REST ENDPOINTS START HERE ///////////////////////////
-///////////////////////////////////////////////////////////////////////////////
+app.post('/token',async function(req,res){
+	let username = req.body.username;
+	let orgName = req.body.orgName;
+	if (!username) {
+		res.json(getErrorMessage('\'username\''));
+		return;
+	}
+	if (!orgName) {
+		res.json(getErrorMessage('\'orgName\''));
+		return;
+	}
+	var token = jwt.sign({
+		exp: Math.floor(Date.now() / 1000) + parseInt(hfc.getConfigSetting('jwt_expiretime')),
+		username: username,
+		orgName: orgName
+	}, app.get('secret'));
+	res.json({success: true, token: token});
+});
+
 // Register and enroll user
 app.post('/users', async function(req, res) {
 	var username = req.body.username;
@@ -399,10 +409,10 @@ app.get('/channels/:channelName/chaincodes', async function(req, res) {
 // Query to fetch all Installed/instantiated chaincodes
 app.get('/chaincodes', async function(req, res) {
 	var peer = req.query.peer;
-	var installType = req.query.type;
+	//var installType = req.query.type;
 	logger.debug('================ GET INSTALLED CHAINCODES ======================');
 
-	let message = await query.getInstalledChaincodes(peer, null, 'installed', req.username, req.orgname)
+	let message = await query.getInstalledChaincodes(peer, null, 'installed', req.username, req.orgname);
 	res.send(message);
 });
 // Query to fetch channels
