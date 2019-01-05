@@ -20,10 +20,11 @@ var join = require('./app/join-channel.js');
 var updateAnchorPeers = require('./app/update-anchor-peers.js');
 var install = require('./app/install-chaincode.js');
 var instantiate = require('./app/instantiate-chaincode.js');
-var invoke = require('./app/invoke-transaction.js');
 var query = require('./app/query.js');
 var host = process.env.HOST || hfc.getConfigSetting('host');
 var port = process.env.PORT || hfc.getConfigSetting('port');
+
+var mq = require("./app/mq-client.js");
 
 app.options('*', cors());
 app.use(cors());
@@ -283,6 +284,7 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', async function(req,
 	var channelName = req.params.channelName;
 	var fcn = req.body.fcn;
 	var args = req.body.args;
+	logger.debug('peers  : ' + peers);
 	logger.debug('channelName  : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
 	logger.debug('fcn  : ' + fcn);
@@ -303,8 +305,17 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', async function(req,
 		res.json(getErrorMessage('\'args\''));
 		return;
 	}
-
-	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname);
+    let tx = {
+    	peers: peers,
+    	channelName: channelName,
+    	chaincodeName: chaincodeName,
+    	fcn: fcn,
+    	args: args,
+    	username: req.username,
+    	orgname: req.orgname,
+    }
+    let uid = await mq.sendTx(tx);
+	let message = {id:uid,success:true}
 	res.send(message);
 });
 // Query on chaincode on target peers
