@@ -7,6 +7,88 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+          <div class="container">
+            <a class="navbar-brand" href="#">Blockchain PoC </a>
+        </nav>
+        <div class="container">
+          <header class="jumbotron my-4">
+            <h1 class="display-3">Trancation showcase</h1>
+            <p class="lead">This showcase is supported by Hyperledger Fabric, SDK, MQ, Redis and Socket.io</p>
+          </header>
+          <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Alice to Blob</h4>
+                  <p class="card-text">Alice sents one coin to Blob</p>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary">Send</button>
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Blob to Alice</h4>
+                  <p class="card-text">Blob sents one coin to Alice</p>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary">Send</button>
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Bulk Action</h4>
+                  <p class="card-text">Send 50 trancations</p>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary">Send</button>
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Batch Action</h4>
+                  <p class="card-text">Sends 100 transactions</p>
+                </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="container mb-5">
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <h5><span class="badge badge-light">Request Log:</span></h5>
+              <div class="card request">
+                <div class="card-body" id="request"></div>
+              </div>              
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <h5><span class="badge badge-light">Asynchronous Result:</span></h5>
+              <div class="card result">
+                <div class="card-body" id="result"></div>
+              </div>              
+            </div>
+          </div>
+        </div>
+
+        <footer class="py-5 bg-dark">
+          <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; ZhiGui 2019</p>
+          </div>
+        </footer>       
         <script src="/jquery.min.js"></script>
         <script type="text/javascript" src="bootstrap.min.js"></script>
         <script src="/socket.io.js"></script>
