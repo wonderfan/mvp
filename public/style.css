@@ -21,10 +21,12 @@ body {
   width: 100%;
 }
 
-.request {
-  background-color: white;
+#console .card-body {
+  margin-bottom: -1rem;
 }
 
-.result {
-  background-color: black;
+.request, .result {
+  background-color: #FFFFCC;
+  height: auto;
+  min-height: 150px;
 }

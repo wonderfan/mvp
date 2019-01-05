@@ -12,6 +12,14 @@ jQuery(document).ready(function(){
         var template = jQuery("#alert").html().replace("{{uid}}",data);
         jQuery("#result").append(template);        
     })
+    setInterval(function(){
+        if(jQuery("#result .alert").length > 5){
+            jQuery("#result").empty();
+        }
+        if(jQuery("#request .alert").length > 5){
+            jQuery("#request").empty();
+        }
+    },2000);
 });
 
 function GetToken(){
@@ -46,9 +54,6 @@ function RegisterHandler(){
             success: function (data) {
                 var template = jQuery("#alert").html().replace("{{uid}}",data.id);
                 jQuery("#request").append(template);
-                setTimeout(function(){
-                    jQuery("#request").empty();
-                },1000)
             }
         });        
     });
