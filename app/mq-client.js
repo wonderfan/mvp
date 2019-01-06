@@ -16,15 +16,22 @@ module.exports.sendTx = async function(tx){
     return uid;
 };
 
+module.exports.sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 module.exports.consume = async function(){
     channel = await getChannel();
     channel.consume(queue, async function(msg) {
         if (msg !== null) {
             let txString = msg.content.toString();
-            let tx = JSON.parse(txString);
-            let result = await invoke.invokeChaincode(tx.peers, tx.channelName, tx.chaincodeName, tx.fcn, tx.args, tx.username, tx.orgname);
-            logger.debug(">>> tx",result);
-            if(global.socket) global.socket.send(result);
+            try{
+                let tx = JSON.parse(txString);
+                await exports.sleep(1000);
+                let txid = await invoke.invokeChaincode(tx.peers, tx.channelName, tx.chaincodeName, tx.fcn, tx.args, tx.username, tx.orgname);
+                let result = {uid:tx.uid,txid:txid};
+                if(global.socket) global.socket.send(JSON.stringify(result));
+            }catch(err){
+                logger.error(err);
+            }
             channel.ack(msg);
         }
     });

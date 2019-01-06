@@ -39,7 +39,7 @@ app.set('secret', 'mysecret');
 app.use(expressJWT({
 	secret: 'mysecret'
 }).unless({
-	path: ['/users','/token','/index.html']
+	path: ['/users','/token','/index.html','/query.html']
 }));
 app.use(bearerToken());
 app.use(function(req, res, next) {
@@ -52,7 +52,10 @@ app.use(function(req, res, next) {
 	}
 	if (req.originalUrl.indexOf('/index.html') >= 0) {
 		return next();
-	}	
+	}
+	if (req.originalUrl.indexOf('/query.html') >= 0) {
+		return next();
+	}
 	var token = req.token;
 	jwt.verify(token, app.get('secret'), function(err, decoded) {
 		if (err) {
