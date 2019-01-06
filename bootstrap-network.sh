@@ -50,6 +50,6 @@ restartNetwork
 
 installNodeModules
 
-sleep 5s
+sleep 10s
 
 PORT=8080 node app

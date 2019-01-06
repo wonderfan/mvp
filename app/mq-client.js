@@ -1,6 +1,8 @@
 const amqp = require('amqplib');
 const uuid = require('uuid/v4');
 var invoke = require('./invoke-transaction.js');
+var helper = require('./helper.js');
+var logger = helper.getLogger('message-queue');
 const queue = 'fabric';
 var connection = null;
 var channel = null;
@@ -17,11 +19,12 @@ module.exports.sendTx = async function(tx){
 module.exports.consume = async function(){
     channel = await getChannel();
     channel.consume(queue, async function(msg) {
+        logger.info(">>> jiahe",msg);
         if (msg !== null) {
             let txString = msg.content.toString();
             let tx = JSON.parse(txString);
             let result = await invoke.invokeChaincode(tx.peers, tx.channelName, tx.chaincodeName, tx.fcn, tx.args, tx.username, tx.orgname);
-            console.log(">>> jiahe",result);
+            logger.info(">>> jiahe",result);
             if(global.socket) global.socket.send(JSON.stringify(result));
             channel.ack(msg);
         }
