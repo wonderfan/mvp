@@ -11,7 +11,7 @@ module.exports.sendTx = async function(tx){
     channel = await getChannel();
     let uid = uuid();
     tx.uid = uid;
-    if(global.socket) global.socket.send(uid);
+    //if(global.socket) global.socket.send(uid);
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(tx)));
     return uid;
 };
@@ -19,13 +19,12 @@ module.exports.sendTx = async function(tx){
 module.exports.consume = async function(){
     channel = await getChannel();
     channel.consume(queue, async function(msg) {
-        logger.info(">>> jiahe",msg);
         if (msg !== null) {
             let txString = msg.content.toString();
             let tx = JSON.parse(txString);
             let result = await invoke.invokeChaincode(tx.peers, tx.channelName, tx.chaincodeName, tx.fcn, tx.args, tx.username, tx.orgname);
-            logger.info(">>> jiahe",result);
-            if(global.socket) global.socket.send(JSON.stringify(result));
+            logger.debug(">>> tx",result);
+            if(global.socket) global.socket.send(result);
             channel.ack(msg);
         }
     });

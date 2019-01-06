@@ -9,7 +9,7 @@ jQuery(document).ready(function(){
     RegisterHandler();
     var socket = io();
     socket.on("message",(data) => {
-        var template = jQuery("#info").html().replace("{{uid}}",data);
+        var template = jQuery("#info").html().replace("{{txid}}",data);
         jQuery("#result").append(template);        
     })
     setInterval(function(){
