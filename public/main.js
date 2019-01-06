@@ -19,7 +19,7 @@ jQuery(document).ready(function(){
         if(jQuery("#request .alert").length > 5){
             jQuery("#request").empty();
         }
-    },2000);
+    },6000);
 });
 
 function GetToken(){
@@ -88,22 +88,26 @@ function RegisterHandler(){
         	"fcn":"move",
         	"args":["a","b","1"]
         }
+        var delay = 0
         for(var i = 0; i < 50; i++){
-            jQuery.ajax({
-                url: url,
-                type: 'POST',
-                data: JSON.stringify(data),
-                headers: {
-                    "authorization": 'Bearer ' + window.token
-                },
-                processData: false,
-                contentType: "application/json",
-                dataType: 'json',
-                success: function (data) {
-                    var template = jQuery("#alert").html().replace("{{uid}}",data.id);
-                    jQuery("#request").append(template);
-                }
-            });   
+            setTimeout(function(){
+                jQuery.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    headers: {
+                        "authorization": 'Bearer ' + window.token
+                    },
+                    processData: false,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (data) {
+                        var template = jQuery("#alert").html().replace("{{uid}}",data.id);
+                        jQuery("#request").append(template);
+                    }
+                });                 
+            },delay);
+            delay = delay + 500;
         }
     });
     
@@ -114,22 +118,26 @@ function RegisterHandler(){
         	"fcn":"move",
         	"args":["a","b","1"]
         }
+        var delay = 0
         for(var i = 0; i < 100; i++){
-            jQuery.ajax({
-                url: url,
-                type: 'POST',
-                data: JSON.stringify(data),
-                headers: {
-                    "authorization": 'Bearer ' + window.token
-                },
-                processData: false,
-                contentType: "application/json",
-                dataType: 'json',
-                success: function (data) {
-                    var template = jQuery("#alert").html().replace("{{uid}}",data.id);
-                    jQuery("#request").append(template);
-                }
-            });
+            setTimeout(function(){
+                jQuery.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    headers: {
+                        "authorization": 'Bearer ' + window.token
+                    },
+                    processData: false,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (data) {
+                        var template = jQuery("#alert").html().replace("{{uid}}",data.id);
+                        jQuery("#request").append(template);
+                    }
+                });                
+            },delay);
+            delay = delay + 500;
         }
     });
 }
