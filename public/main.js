@@ -14,12 +14,16 @@ jQuery(document).ready(function(){
     })
     setInterval(function(){
         if(jQuery("#result .alert").length > 5){
-            jQuery("#result").empty();
+            //jQuery("#result").empty();
         }
         if(jQuery("#request .alert").length > 5){
-            jQuery("#request").empty();
+            //jQuery("#request").empty();
         }
     },6000);
+    jQuery("#prune").click(function(){
+        jQuery("#result").empty();
+        jQuery("#request").empty();
+    });
 });
 
 function GetToken(){
