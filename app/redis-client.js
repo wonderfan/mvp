@@ -1,4 +1,5 @@
 const redis = require("redis");
+const promisify = require("util").promisify;
 var client = null;
 
 module.exports.set = function(key,value){
@@ -6,11 +7,10 @@ module.exports.set = function(key,value){
     client.set(key,value);
 };
 
-module.exports.get = function(key){
-    client.get(key, function(err, reply) {
-        console.log(reply);
-        if(err) console.error(err);
-    });    
+module.exports.get = async function(key){
+    client = getClient();
+    let getAsync = promisify(client.get).bind(client);
+    return await getAsync(key);
 };
 
 module.exports.close = function(){
