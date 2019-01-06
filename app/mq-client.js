@@ -9,7 +9,7 @@ module.exports.sendTx = async function(tx){
     channel = await getChannel();
     let uid = uuid();
     tx.uid = uid;
-    global.socket.send(uid);
+    if(global.socket) global.socket.send(uid);
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(tx)));
     return uid;
 };
@@ -22,7 +22,7 @@ module.exports.consume = async function(){
             let tx = JSON.parse(txString);
             let result = await invoke.invokeChaincode(tx.peers, tx.channelName, tx.chaincodeName, tx.fcn, tx.args, tx.username, tx.orgname);
             console.log(">>> jiahe",result);
-            global.socket.send(JSON.stringify(result));
+            if(global.socket) global.socket.send(JSON.stringify(result));
             channel.ack(msg);
         }
     });
