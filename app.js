@@ -83,7 +83,7 @@ server.timeout = 240000;
 server.listen(port, function() {});
 logger.info('****************** SERVER STARTED ************************');
 logger.info('***************  http://%s:%s  ******************',host,port);
-
+mq.consume();
 
 function getErrorMessage(field) {
 	var response = {
