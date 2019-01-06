@@ -10,7 +10,7 @@ starttime=$(date +%s)
 # Print the usage message
 function printHelp () {
   echo "Usage: "
-  echo "  ./setup.sh -l golang|node"
+  echo "  ./init.sh -l golang|node"
   echo "    -l <language> - chaincode language (defaults to \"golang\")"
 }
 # Language defaults to "golang"
