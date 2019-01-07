@@ -55,9 +55,23 @@
         </footer>
         <script src="/jquery.min.js"></script>
         <script type="text/javascript" src="bootstrap.min.js"></script>
-        <script type="text/javascript" src="main.js"></script>
         <script type="text/javascript">
+          window.appUrl = "http://39.104.145.229:8080";
+          function getUrl(path){
+              return window.appUrl + path;
+          }
+          function GetToken(){
+              var url = getUrl("/token");
+              var data = {
+                  username: "Alice",
+                  orgName: "Org1"
+              };
+              jQuery.post(url,data,function(result){
+                  window.token = result.token;
+              });
+          }
           jQuery(document).ready(function(){
+            GetToken();
             jQuery("#blk-search").click(function() {
               var value = $("#block").val();
               var url = window.appUrl + "/channels/mychannel/blocks/" + value + '?peer=peer0.org1.example.com';
