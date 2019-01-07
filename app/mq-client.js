@@ -25,13 +25,13 @@ module.exports.consume = async function(){
             let txString = msg.content.toString();
             let tx = JSON.parse(txString);
             try{
-                await exports.sleep(1000);
+                //await exports.sleep(1000);
                 let txid = await invoke.invokeChaincode(tx.peers, tx.channelName, tx.chaincodeName, tx.fcn, tx.args, tx.username, tx.orgname);
                 let result = {uid:tx.uid,txid:txid};
                 if(global.socket) global.socket.send(JSON.stringify(result));
             }catch(err){
                 logger.error(err);
-                let result = {uid:tx.uid,txid:err.message};
+                let result = {uid:tx.uid,txid:"invalid transaction because of mvcc conflicts"};
                 if(global.socket) global.socket.send(JSON.stringify(result));
             }
             channel.ack(msg);
