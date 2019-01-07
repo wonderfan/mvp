@@ -2,9 +2,21 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Asset Transaction</title>
+        <title>Transaction Query</title>
         <link rel="stylesheet" href="bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="style.css">
+        <style type="text/css">
+          .request, .result {
+            background-color: gray;
+            height: auto;
+            min-height: 300px;
+          }
+          input {
+            width: 300px;
+          }
+          button {
+            width: 80px;
+          }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -12,18 +24,25 @@
             <a class="navbar-brand" href="#">Blockchain PoC </a>
           </div>
         </nav>
-        <div class="container mb-4" id="console">
+        <div class="container">
+          <header class="mt-5 pt-5 mb-3 pb-3">
+            <h2 class="display-5">Query blockchain network</h2>
+          </header>
+        </container>
+        <div class="container mb-4">
           <div class="row">
             <div class="col-lg-6 col-md-12">
+              <p><input type="text" name="block" id="block" placeholder="block number"/> <button id="blk-search">Search</button></p>
               <h5><span class="badge badge-light">Block :</span></h5>
               <div class="card request">
-                <div class="card-body" id="request"></div>
+                <div class="card-body" id="blk-result"></div>
               </div>              
             </div>
             <div class="col-lg-6 col-md-12">
+              <p><input type="text" name="transaction" id="transaction" placeholder="tx id" /> <button id="tx-search">Search</button></p>
               <h5><span class="badge badge-light">Transaction :</span></h5>
               <div class="card result">
-                <div class="card-body" id="result"></div>
+                <div class="card-body" id="tx-result"></div>
               </div>              
             </div>
           </div>
@@ -36,5 +55,40 @@
         </footer>
         <script src="/jquery.min.js"></script>
         <script type="text/javascript" src="bootstrap.min.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript">
+          jQuery(document).ready(function(){
+            jQuery("#blk-search").click(function() {
+              var value = $("#block").val();
+              var url = window.appUrl + "/channels/mychannel/blocks/" + value + '?peer=peer0.org1.example.com';
+               jQuery.ajax({
+                  url: url,
+                  type: 'GET',
+                  headers: {
+                      "authorization": 'Bearer ' + window.token
+                  },
+                  dataType: 'json',
+                  success: function (data) {
+                      jQuery("#blk-result").append(data);
+                  }
+              });             
+            });
+            jQuery("#tx-search").click(function() {
+              var value = $("#transaction").val();
+              var url = window.appUrl + "/channels/mychannel/transactions/" + value + '?peer=peer0.org1.example.com';
+               jQuery.ajax({
+                  url: url,
+                  type: 'GET',
+                  headers: {
+                      "authorization": 'Bearer ' + window.token
+                  },
+                  dataType: 'json',
+                  success: function (data) {
+                      jQuery("#tx-result").append(data);
+                  }
+              });             
+            });            
+          });
+        </script>
     </body>
 </html>
