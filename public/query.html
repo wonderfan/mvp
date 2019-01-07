@@ -57,21 +57,24 @@
         <script type="text/javascript" src="bootstrap.min.js"></script>
         <script type="text/javascript">
           window.appUrl = "http://39.104.145.229:8080";
-          function getUrl(path){
-              return window.appUrl + path;
-          }
-          function GetToken(){
-              var url = getUrl("/token");
-              var data = {
-                  username: "Alice",
-                  orgName: "Org1"
-              };
-              jQuery.post(url,data,function(result){
-                  window.token = result.token;
-              });
-          }
           jQuery(document).ready(function(){
+            function getUrl(path){
+                return window.appUrl + path;
+            }
+            function GetToken(){
+                var url = getUrl("/token");
+                var data = {
+                    username: "Alice",
+                    orgName: "Org1"
+                };
+                jQuery.post(url,data,function(result){
+                    window.token = result.token;
+                });
+            } 
             GetToken();
+          });
+          
+          jQuery(document).ready(function(){
             jQuery("#blk-search").click(function() {
               var value = $("#block").val();
               var url = window.appUrl + "/channels/mychannel/blocks/" + value + '?peer=peer0.org1.example.com';
@@ -83,7 +86,7 @@
                   },
                   dataType: 'json',
                   success: function (data) {
-                      jQuery("#blk-result").append(data);
+                      jQuery("#blk-result").append(JSON.stringify(data));
                   }
               });             
             });
@@ -98,7 +101,7 @@
                   },
                   dataType: 'json',
                   success: function (data) {
-                      jQuery("#tx-result").append(data);
+                      jQuery("#tx-result").append(JSON.stringify(data));
                   }
               });             
             });            
