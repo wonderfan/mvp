@@ -78,33 +78,41 @@
           jQuery(document).ready(function(){
             jQuery("#blk-search").click(function() {
               var value = $("#block").val();
-              var url = window.appUrl + "/channels/mychannel/blocks/" + value + '?peer=peer0.org1.example.com';
-               jQuery.ajax({
-                  url: url,
-                  type: 'GET',
-                  headers: {
-                      "authorization": 'Bearer ' + window.token
-                  },
-                  dataType: 'json',
-                  success: function (data) {
-                      jQuery("#blk-result").append(JSON.stringify(data));
-                  }
-              });             
+              if(value){
+                var url = window.appUrl + "/channels/mychannel/blocks/" + value + '?peer=peer0.org1.example.com';
+                 jQuery.ajax({
+                    url: url,
+                    type: 'GET',
+                    headers: {
+                        "authorization": 'Bearer ' + window.token
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        jQuery("#blk-result").append(JSON.stringify(data));
+                    }
+                }); 
+              }else{
+                $("#block").focus();
+              }
             });
             jQuery("#tx-search").click(function() {
               var value = $("#transaction").val();
-              var url = window.appUrl + "/channels/mychannel/transactions/" + value + '?peer=peer0.org1.example.com';
-               jQuery.ajax({
-                  url: url,
-                  type: 'GET',
-                  headers: {
-                      "authorization": 'Bearer ' + window.token
-                  },
-                  dataType: 'json',
-                  success: function (data) {
-                      jQuery("#tx-result").append(JSON.stringify(data));
-                  }
-              });             
+              if(value){            
+                var url = window.appUrl + "/channels/mychannel/transactions/" + value + '?peer=peer0.org1.example.com';
+                 jQuery.ajax({
+                    url: url,
+                    type: 'GET',
+                    headers: {
+                        "authorization": 'Bearer ' + window.token
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        jQuery("#tx-result").append(JSON.stringify(data));
+                    }
+                });
+              }else{
+                $("#transaction").focus();
+              }
             });            
           });
         </script>
