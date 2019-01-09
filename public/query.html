@@ -54,14 +54,11 @@
             <p class="m-0 text-center text-white">Copyright &copy; zhigui 2019</p>
           </div>
         </footer>
+        <script src="/common.js"></script>
         <script src="/jquery.min.js"></script>
         <script type="text/javascript" src="bootstrap.min.js"></script>
         <script type="text/javascript">
-          window.appUrl = "http://39.104.145.229:8080";
           jQuery(document).ready(function(){
-            function getUrl(path){
-                return window.appUrl + path;
-            }
             function GetToken(){
                 var url = getUrl("/token");
                 var data = {
