@@ -2,7 +2,11 @@
 
 ## The steps of bootstraping this application
 
-1. clone the codes
+1. clone this repository
+ 
+```sh
+git clone https://github.com/wonderfan/mvp.git
+```
 
 2. open one terminal console and run following command
 
@@ -14,9 +18,7 @@
 
 ```sh
 ./init.sh
-vim public/common.js  # replace ip address in variable appUrl with your VM IP
+vim public/common.js  # replace ip address in variable appUrl with your IP
 ```
 
 4. open browser and access `http://your-ip:8080`
-
-
