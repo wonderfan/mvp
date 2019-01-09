@@ -3,6 +3,7 @@ const uuid = require('uuid/v4');
 var invoke = require('./invoke-transaction.js');
 var helper = require('./helper.js');
 var logger = helper.getLogger('message-queue');
+var redis = require("./redis-client.js");
 const queue = 'fabric';
 var connection = null;
 var channel = null;
@@ -29,6 +30,7 @@ module.exports.consume = async function(){
                 let txid = await invoke.invokeChaincode(tx.peers, tx.channelName, tx.chaincodeName, tx.fcn, tx.args, tx.username, tx.orgname);
                 let result = {uid:tx.uid,txid:txid};
                 if(global.socket) global.socket.send(JSON.stringify(result));
+                //redis.set(tx.uid,txid);
             }catch(err){
                 logger.error(err);
                 let result = {uid:tx.uid,txid:"invalid transaction because of mvcc conflicts"};

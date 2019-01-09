@@ -25,7 +25,7 @@ var host = process.env.HOST || hfc.getConfigSetting('host');
 var port = process.env.PORT || hfc.getConfigSetting('port');
 
 var mq = require("./app/mq-client.js");
-
+var redis = require("./app/redis-client.js");
 app.options('*', cors());
 app.use(cors());
 app.use(bodyParser.json());
@@ -95,6 +95,12 @@ function getErrorMessage(field) {
 	};
 	return response;
 }
+
+app.get("/result/requestId",async function(req,res){
+	let requestId = req.params.requestId;
+	let txId = await redis.get(requestId);
+	res.send({txId: txId});
+});
 
 app.post('/token',async function(req,res){
 	let username = req.body.username;
