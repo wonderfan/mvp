@@ -1,4 +1,4 @@
-# Most Viable Product
+# Minimum Viable Product
 
 ## The steps of bootstraping this application
 
